@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Boxes</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', serif;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .app-container {
+            width: 400px;
+            padding: 15px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #2e8b57;
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+
+        .circle {
+            width: 80px;
+            height: 80px;
+            background-color: #2e8b57;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .circle:hover {
+            background-color: #3cb371;
+            transform: scale(1.2);
+        }
+
+        .output {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            color: #555;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">Circle Interaction</div>
+        <div class="row">
+            <div class="circle" onclick="displayMessage('Circle A selected')">A</div>
+            <div class="circle" onclick="displayMessage('Circle B selected')">B</div>
+        </div>
+        <div class="row">
+            <div class="circle" onclick="displayMessage('Circle C selected')">C</div>
+            <div class="circle" onclick="displayMessage('Circle D selected')">D</div>
+        </div>
+        <div class="output" id="output">Click a circle to see a message.</div>
+    </div>
+
+    <script>
+        function displayMessage(message) {
+            document.getElementById('output').innerText = message;
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple GUI App</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Verdana', sans-serif;
+            background-color: #eaf2f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .app-wrapper {
+            width: 320px;
+            background-color: #ffffff;
+            border: 2px solid #1abc9c;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .header {
+            text-align: center;
+            color: #1abc9c;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .label {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #333333;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #dddddd;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            color: #ffffff;
+            background-color: #1abc9c;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #16a085;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="header">Simple App</div>
+        <label class="label">Your Name:</label>
+        <input type="text" class="text-input" placeholder="Enter your name here">
+        <button class="submit-btn">Submit</button>
+    </div>
+</body>
+</html>
+
