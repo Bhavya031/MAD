@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flutter App with GUI Components</title>
+    <link href="https://fonts.googleapis.com/css2?family=Questrial&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #eeeeee;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            color: #333;
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Questrial', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #2196f3;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin: 20px 0;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #2196f3;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #1976d2;
+        }
+
+        .output {
+            margin-top: 20px;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Flutter App Demo</h1>
+        <p>This is a Flutter-like UI showcasing text input, buttons, and styling with font and color changes.</p>
+
+        <div class="form-group">
+            <label for="username">Enter your name:</label>
+            <input type="text" id="username" placeholder="Your Name" />
+        </div>
+
+        <button class="button" onclick="showGreeting()">Submit</button>
+
+        <div class="output" id="greetingOutput"></div>
+    </div>
+
+    <script>
+        function showGreeting() {
+            var name = document.getElementById("username").value;
+            var greetingMessage = name ? `Hello, ${name}! Welcome to the Flutter-like UI.` : "Please enter your name!";
+            document.getElementById("greetingOutput").innerText = greetingMessage;
+        }
+    </script>
+
+</body>
+</html>
+

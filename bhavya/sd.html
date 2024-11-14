@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save Data to Storage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Questrial&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(to bottom right, #ff7b7b, #f1d1ff);
+            font-family: 'Roboto', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background: #111;
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Questrial', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: #ff6f61;
+            letter-spacing: 1.5px;
+        }
+
+        select, textarea, button {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 2px solid #444;
+            font-size: 1.1rem;
+            transition: 0.3s ease-in-out;
+            outline: none;
+        }
+
+        select, textarea {
+            background: #2f2f2f;
+            color: #ddd;
+        }
+
+        button {
+            background-color: #ff6f61;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff3b2f;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            background-color: #ff2a1b;
+        }
+
+        .status-message {
+            font-size: 1.2rem;
+            color: #ffcc00;
+            margin-top: 20px;
+        }
+
+        .dropdown-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dropdown-container select {
+            width: 48%;
+            margin-right: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Save Data to Storage</h1>
+
+        <!-- Storage selection dropdown -->
+        <div class="dropdown-container">
+            <select id="storageSelect">
+                <option value="internal">Internal Storage</option>
+                <option value="external">External (SD) Storage</option>
+            </select>
+        </div>
+
+        <!-- Textarea for data input -->
+        <textarea id="dataInput" rows="5" placeholder="Enter some data to save..."></textarea>
+
+        <!-- Save Data Button -->
+        <button onclick="saveToFile()">Save Data</button>
+
+        <!-- Status message -->
+        <div class="status-message" id="statusMessage"></div>
+    </div>
+
+    <script>
+        function saveToFile() {
+            const data = document.getElementById('dataInput').value;
+            const storageType = document.getElementById('storageSelect').value;
+            const statusMessage = document.getElementById('statusMessage');
+
+            if (data.trim() === "") {
+                alert("Please enter some data to save.");
+                return;
+            }
+
+            // Display message while saving data
+            statusMessage.textContent = `Saving to ${storageType === 'internal' ? 'Internal Storage' : 'External (SD) Storage'}...`;
+
+            // Simulate saving the data
+            setTimeout(() => {
+                const blob = new Blob([data], { type: 'text/plain' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `data_${storageType}.txt`;
+                link.click();
+
+                // Show success message
+                statusMessage.textContent = `Data saved successfully! Check your download folder.`;
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>
+

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flutter App Demo - Friend</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 40px 30px;
+            width: 350px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            color: #5d5dff;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            width: 100%;
+            font-size: 1rem;
+            border: 1px solid #d3d3d3;
+            border-radius: 8px;
+            outline: none;
+            margin-top: 8px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #5d5dff;
+        }
+
+        .button {
+            padding: 12px 25px;
+            background-color: #5d5dff;
+            color: white;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #4c4cc7;
+        }
+
+        .output {
+            margin-top: 20px;
+            background-color: #f2f3f7;
+            padding: 15px;
+            border-radius: 8px;
+            color: #5d5dff;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Welcome to Flutter UI</h1>
+        <p>Enter your name to get a personalized greeting message:</p>
+
+        <div class="form-group">
+            <label for="username">Your Name:</label>
+            <input type="text" id="username" placeholder="Type here..." />
+        </div>
+
+        <button class="button" onclick="showGreeting()">Submit</button>
+
+        <div class="output" id="greetingOutput"></div>
+    </div>
+
+    <script>
+        function showGreeting() {
+            var name = document.getElementById("username").value;
+            var greetingMessage = name ? `Hi, ${name}! Thanks for visiting this Flutter-inspired UI.` : "Please enter your name!";
+            document.getElementById("greetingOutput").innerText = greetingMessage;
+        }
+    </script>
+
+</body>
+</html>
+

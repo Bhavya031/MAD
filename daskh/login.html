@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Signup App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Open Sans', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .toggle-btn {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #555;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .toggle-btn:hover {
+            color: #4CAF50;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="authContainer">
+        <h1>Login</h1>
+        <form id="authForm">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="Enter Username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Enter Password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <p class="toggle-btn" id="toggleForm">Don't have an account? Signup</p>
+        <p class="error-message" id="errorMessage"></p>
+    </div>
+
+    <script>
+        const toggleForm = document.getElementById('toggleForm');
+        const authContainer = document.getElementById('authContainer');
+        const authForm = document.getElementById('authForm');
+        const errorMessage = document.getElementById('errorMessage');
+
+        let isLogin = true;
+
+        // Toggle between login and signup
+        toggleForm.addEventListener('click', () => {
+            if (isLogin) {
+                authContainer.innerHTML = `
+                    <h1>Signup</h1>
+                    <form id="authForm">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" placeholder="Enter Username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" placeholder="Enter Password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password:</label>
+                            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                        </div>
+                        <button type="submit">Signup</button>
+                    </form>
+                    <p class="toggle-btn" id="toggleForm">Already have an account? Login</p>
+                    <p class="error-message" id="errorMessage"></p>
+                `;
+                isLogin = false;
+            } else {
+                authContainer.innerHTML = `
+                    <h1>Login</h1>
+                    <form id="authForm">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" placeholder="Enter Username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" placeholder="Enter Password" required>
+                        </div>
+                        <button type="submit">Login</button>
+                    </form>
+                    <p class="toggle-btn" id="toggleForm">Don't have an account? Signup</p>
+                    <p class="error-message" id="errorMessage"></p>
+                `;
+                isLogin = true;
+            }
+        });
+
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (isLogin) {
+                if (username === 'admin' && password === 'admin') {
+                    errorMessage.textContent = 'Login successful!';
+                    errorMessage.style.color = 'green';
+                } else {
+                    errorMessage.textContent = 'Invalid username or password!';
+                    errorMessage.style.color = 'red';
+                }
+            } else {
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                if (password === confirmPassword) {
+                    errorMessage.textContent = 'Signup successful!';
+                    errorMessage.style.color = 'green';
+                } else {
+                    errorMessage.textContent = 'Passwords do not match!';
+                    errorMessage.style.color = 'red';
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
+

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Signup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f0f4f8;
+            font-family: 'Questrial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: #ffffff;
+            width: 380px;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card-header {
+            background: linear-gradient(145deg, #4CAF50, #81C784);
+            color: #fff;
+            padding: 35px;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .form-container {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 16px;
+            border-radius: 10px;
+            border: 2px solid #ccc;
+            font-size: 1rem;
+            margin-top: 8px;
+            background-color: #f9f9f9;
+            transition: border 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+            background-color: #fff;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #388e3c;
+        }
+
+        .switch-btn {
+            text-align: center;
+            margin-top: 18px;
+        }
+
+        .switch-btn a {
+            color: #388e3c;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .switch-btn a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 1rem;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .success-message {
+            color: green;
+            font-size: 1rem;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="authCard">
+        <div class="card-header" id="cardHeader">
+            Login
+        </div>
+        <div class="form-container">
+            <form id="authForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter Username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter Password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <div class="switch-btn" id="switchBtn">
+                <a href="javascript:void(0);" id="switchForm">Don't have an account? Signup</a>
+            </div>
+            <p class="error-message" id="errorMessage"></p>
+            <p class="success-message" id="successMessage"></p>
+        </div>
+    </div>
+
+    <script>
+        const switchForm = document.getElementById('switchForm');
+        const authCard = document.getElementById('authCard');
+        const cardHeader = document.getElementById('cardHeader');
+        const authForm = document.getElementById('authForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        let isLogin = true;
+
+        // Toggle between Login and Signup
+        switchForm.addEventListener('click', () => {
+            if (isLogin) {
+                authCard.innerHTML = `
+                    <div class="card-header" id="cardHeader">Signup</div>
+                    <div class="form-container">
+                        <form id="authForm">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" id="username" placeholder="Enter Username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" placeholder="Enter Password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                            </div>
+                            <button type="submit" class="btn">Signup</button>
+                        </form>
+                        <div class="switch-btn" id="switchBtn">
+                            <a href="javascript:void(0);" id="switchForm">Already have an account? Login</a>
+                        </div>
+                        <p class="error-message" id="errorMessage"></p>
+                        <p class="success-message" id="successMessage"></p>
+                    </div>
+                `;
+                isLogin = false;
+            } else {
+                authCard.innerHTML = `
+                    <div class="card-header" id="cardHeader">Login</div>
+                    <div class="form-container">
+                        <form id="authForm">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" id="username" placeholder="Enter Username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" placeholder="Enter Password" required>
+                            </div>
+                            <button type="submit" class="btn">Login</button>
+                        </form>
+                        <div class="switch-btn" id="switchBtn">
+                            <a href="javascript:void(0);" id="switchForm">Don't have an account? Signup</a>
+                        </div>
+                        <p class="error-message" id="errorMessage"></p>
+                        <p class="success-message" id="successMessage"></p>
+                    </div>
+                `;
+                isLogin = true;
+            }
+        });
+
+        // Handle Login and Signup form submissions
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (isLogin) {
+                if (username === 'user' && password === 'password') {
+                    successMessage.textContent = 'Login successful!';
+                    errorMessage.textContent = '';
+                    successMessage.style.color = 'green';
+                    errorMessage.style.color = 'red';
+                } else {
+                    errorMessage.textContent = 'Invalid username or password!';
+                    successMessage.textContent = '';
+                    errorMessage.style.color = 'red';
+                    successMessage.style.color = 'green';
+                }
+            } else {
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                if (password === confirmPassword) {
+                    successMessage.textContent = 'Signup successful!';
+                    errorMessage.textContent = '';
+                    successMessage.style.color = 'green';
+                    errorMessage.style.color = 'red';
+                } else {
+                    errorMessage.textContent = 'Passwords do not match!';
+                    successMessage.textContent = '';
+                    errorMessage.style.color = 'red';
+                    successMessage.style.color = 'green';
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
+
