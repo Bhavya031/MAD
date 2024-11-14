@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personalized Greeting</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        text-align: center;
+      }
+
+      h2 {
+        color: #333;
+      }
+
+      label {
+        display: block;
+        margin: 10px 0 5px;
+        font-size: 1.1em;
+        color: #555;
+      }
+
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        font-size: 1em;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1.1em;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      button:active {
+        background-color: #388e3c;
+      }
+
+      .greeting-box {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        display: none; /* Initially hidden */
+      }
+
+      .greeting-text {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Personalized Greeting</h2>
+      <form id="greeting-form">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" placeholder="Enter your name" required />
+
+        <label for="color">Favorite Color:</label>
+        <select id="color" required>
+          <option value="">Select your favorite color</option>
+          <option value="red">Red</option>
+          <option value="blue">Blue</option>
+          <option value="green">Green</option>
+          <option value="yellow">Yellow</option>
+          <option value="purple">Purple</option>
+        </select>
+
+        <label for="font">Choose Font Style:</label>
+        <select id="font" required>
+          <option value="Arial">Arial</option>
+          <option value="Courier New">Courier New</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Verdana">Verdana</option>
+          <option value="Times New Roman">Times New Roman</option>
+        </select>
+
+        <button type="button" onclick="generateGreeting()">
+          Generate Greeting
+        </button>
+      </form>
+
+      <div class="greeting-box" id="greeting-box">
+        <p class="greeting-text" id="greeting-text"></p>
+      </div>
+    </div>
+
+    <script>
+      // Function to generate personalized greeting
+      function generateGreeting() {
+        const name = document.getElementById("name").value;
+        const color = document.getElementById("color").value;
+        const font = document.getElementById("font").value;
+
+        // Basic validation to ensure all fields are filled
+        if (name && color && font) {
+          // Set the greeting text
+          const greetingText = `Hello, ${name}! Your favorite color is ${color}.`;
+
+          // Apply the customizations
+          const greetingBox = document.getElementById("greeting-box");
+          const greetingMessage = document.getElementById("greeting-text");
+
+          greetingMessage.textContent = greetingText;
+          greetingMessage.style.color = color;
+          greetingMessage.style.fontFamily = font;
+
+          // Show the greeting box
+          greetingBox.style.display = "block";
+        } else {
+          alert("Please fill out all fields!");
+        }
+      }
+    </script>
+  </body>
+</html>

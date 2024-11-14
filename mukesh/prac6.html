@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GPS Location Tracker</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+        margin: 0;
+      }
+
+      .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        text-align: center;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+
+      .location-info {
+        font-size: 18px;
+        margin: 15px 0;
+      }
+
+      .error {
+        color: red;
+        font-size: 18px;
+        margin-top: 20px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>GPS Location Tracker</h2>
+      <p class="location-info" id="location">
+        Click the button to get your current location.
+      </p>
+      <button onclick="getLocation()">Get My Location</button>
+      <p class="error" id="error"></p>
+    </div>
+
+    <script>
+      // Function to get the user's GPS location
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+          document.getElementById("error").textContent =
+            "Geolocation is not supported by this browser.";
+        }
+      }
+
+      // Function to display the location on the page
+      function showPosition(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        document.getElementById(
+          "location"
+        ).innerHTML = `Latitude: ${latitude}<br>Longitude: ${longitude}`;
+        document.getElementById("error").textContent = ""; // Clear error if location is retrieved
+      }
+
+      // Function to handle errors
+      function showError(error) {
+        let errorMessage = "";
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage = "User denied the request for Geolocation.";
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorMessage = "Location information is unavailable.";
+            break;
+          case error.TIMEOUT:
+            errorMessage = "The request to get user location timed out.";
+            break;
+          case error.UNKNOWN_ERROR:
+            errorMessage = "An unknown error occurred.";
+            break;
+        }
+        document.getElementById("error").textContent = errorMessage;
+      }
+    </script>
+  </body>
+</html>
