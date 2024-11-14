@@ -94,7 +94,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="goFullScreen()">
     <canvas id="canvas"></canvas>
     
     <div class="width-control">
@@ -118,16 +118,32 @@
         const clearBtn = document.getElementById('clearBtn');
         const lineWidth = document.getElementById('lineWidth');
 
+        // Resize canvas to fit the screen
         function resizeCanvas() {
             canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight - 70;
+            canvas.height = window.innerHeight - 70; // Adjust for toolbar height
         }
+
+        // Call the resize function and re-adjust the canvas size on window resize
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
         let currentShape = 'rectangle';
         let isDrawing = false;
         let startX, startY;
+
+        // Full-screen function
+        function goFullScreen() {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                document.documentElement.msRequestFullscreen();
+            }
+        }
 
         buttons.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -141,6 +157,7 @@
             });
         });
 
+        // Touch event listeners for drawing
         canvas.addEventListener('touchstart', handleStart);
         canvas.addEventListener('touchmove', handleMove);
         canvas.addEventListener('touchend', handleEnd);
@@ -195,7 +212,9 @@
             isDrawing = false;
         }
 
+        // Set default active tool
         document.getElementById('rectangleBtn').classList.add('active');
     </script>
 </body>
 </html>
+
