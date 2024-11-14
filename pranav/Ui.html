@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f4f7fc;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            width: 340px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            border-radius: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            margin-bottom: 15px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #4CAF50;
+        }
+
+        .add-task-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-task-btn:hover {
+            background-color: #45a049;
+        }
+
+        .tasks-list {
+            margin-top: 20px;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .task {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .task span {
+            flex: 1;
+        }
+
+        .task button {
+            background-color: transparent;
+            border: none;
+            color: #4CAF50;
+            cursor: pointer;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .task button:hover {
+            color: #388e3c;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Task Manager</h1>
+
+        <input type="text" id="taskInput" placeholder="Enter a task..." />
+        <button class="add-task-btn" onclick="addTask()">Add Task</button>
+
+        <div class="tasks-list" id="tasksList"></div>
+    </div>
+
+    <script>
+        // Function to add a task
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const taskValue = taskInput.value.trim();
+            const tasksList = document.getElementById('tasksList');
+
+            if (taskValue === "") {
+                return; // Do nothing if input is empty
+            }
+
+            // Create task element
+            const taskElement = document.createElement('div');
+            taskElement.classList.add('task');
+
+            // Create task text
+            const taskText = document.createElement('span');
+            taskText.textContent = taskValue;
+
+            // Create mark complete button
+            const completeButton = document.createElement('button');
+            completeButton.textContent = '✔️';
+            completeButton.onclick = function () {
+                taskText.classList.toggle('completed');
+            };
+
+            // Append elements to the task element
+            taskElement.appendChild(taskText);
+            taskElement.appendChild(completeButton);
+
+            // Append task to the list
+            tasksList.appendChild(taskElement);
+
+            // Clear input field after adding
+            taskInput.value = "";
+        }
+    </script>
+
+</body>
+</html>

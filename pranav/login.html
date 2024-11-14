@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0e7f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background: #fff;
+            width: 320px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        h2 {
+            color: #5e4b8b;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: 1px solid #d3d3d3;
+            font-size: 16px;
+            background-color: #f9f7f9;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #5e4b8b;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #5e4b8b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #4b3d7e;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 15px;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .error.show {
+            opacity: 1;
+        }
+
+        .forgot-password {
+            color: #5e4b8b;
+            font-size: 14px;
+            text-decoration: none;
+            margin-top: 15px;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username" />
+        <input type="password" id="password" placeholder="Password" />
+        <button onclick="login()">Login</button>
+        <div id="error-message" class="error"></div>
+        <a href="#" class="forgot-password">Forgot Password?</a>
+    </div>
+
+    <script>
+        function login() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var errorMessage = document.getElementById('error-message');
+            errorMessage.classList.remove('show'); // Hide error message initially
+
+            if (username === '' || password === '') {
+                errorMessage.textContent = 'Please enter both username and password.';
+                errorMessage.classList.add('show');
+            } else {
+                // Placeholder for login logic
+                errorMessage.textContent = 'Login successful!';
+                errorMessage.style.color = '#2ecc71'; // Green color for success message
+                errorMessage.classList.add('show');
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layout Managers and Event Listeners</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f3f4f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 22px;
+      color: #333;
+    }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .grid-item {
+      padding: 15px;
+      background: #007BFF;
+      color: white;
+      border-radius: 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .grid-item:hover {
+      background: #0056b3;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Interactive Grid</h1>
+    <div class="grid-layout">
+      <div class="grid-item" data-id="1">Item 1</div>
+      <div class="grid-item" data-id="2">Item 2</div>
+      <div class="grid-item" data-id="3">Item 3</div>
+      <div class="grid-item" data-id="4">Item 4</div>
+      <div class="grid-item" data-id="5">Item 5</div>
+      <div class="grid-item" data-id="6">Item 6</div>
+    </div>
+    <div class="message" id="message">Click an item to see details!</div>
+  </div>
+  <script>
+    const gridItems = document.querySelectorAll('.grid-item');
+    const message = document.getElementById('message');
+
+    gridItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const itemId = item.getAttribute('data-id');
+        message.textContent = `You clicked on Item ${itemId}!`;
+      });
+    });
+  </script>
+</body>
+</html>

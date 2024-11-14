@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save Data to Storage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Questrial&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #4CAF50;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: #1F1F1F;
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-family: 'Questrial', sans-serif;
+            font-size: 24px;
+            color: #FF4081;
+            margin-bottom: 20px;
+        }
+
+        select, textarea, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 12px;
+            font-size: 16px;
+            border: 2px solid #333;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        select, textarea {
+            background-color: #2C2C2C;
+            color: white;
+        }
+
+        button {
+            background-color: #FF4081;
+            color: white;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #F50057;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            background-color: #D5004F;
+        }
+
+        .status-message {
+            font-size: 14px;
+            color: #FFD54F;
+            margin-top: 20px;
+        }
+
+        .fullscreen-btn {
+            background-color: transparent;
+            color: transparent;
+            font-size: 20px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .fullscreen-btn:focus {
+            outline: none;
+        }
+
+        .icon {
+            font-size: 30px;
+            color: #FF4081;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Save Data to Storage</h1>
+
+        <!-- Storage selection dropdown -->
+        <select id="storageSelect">
+            <option value="internal">Internal Storage</option>
+            <option value="external">External (SD) Storage</option>
+        </select>
+
+        <!-- Textarea for data input -->
+        <textarea id="dataInput" rows="5" placeholder="Enter data to save..."></textarea>
+
+        <!-- Save Data Button -->
+        <button onclick="saveToFile()">Save Data</button>
+
+        <!-- Status message -->
+        <div class="status-message" id="statusMessage"></div>
+
+        <!-- Invisible Fullscreen button with icon -->
+        <button class="fullscreen-btn" onclick="toggleFullscreen()">
+            <span class="icon">🔲</span> <!-- Icon for fullscreen -->
+        </button>
+    </div>
+
+    <script>
+        function saveToFile() {
+            const data = document.getElementById('dataInput').value;
+            const storageType = document.getElementById('storageSelect').value;
+            const statusMessage = document.getElementById('statusMessage');
+
+            if (data.trim() === "") {
+                alert("Please enter some data to save.");
+                return;
+            }
+
+            // Display message while saving data
+            statusMessage.textContent = `Saving to ${storageType === 'internal' ? 'Internal Storage' : 'External (SD) Storage'}...`;
+
+            // Simulate saving the data
+            setTimeout(() => {
+                const blob = new Blob([data], { type: 'text/plain' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `data_${storageType}.txt`;
+                link.click();
+
+                // Show success message
+                statusMessage.textContent = 'Data saved successfully! Check your download folder.';
+            }, 1000);
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen(); // Request fullscreen for the whole document
+            } else {
+                document.exitFullscreen(); // Exit fullscreen mode
+            }
+        }
+    </script>
+
+</body>
+</html>

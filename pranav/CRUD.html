@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD Operations</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .btn {
+      background-color: #007BFF;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    .table th, .table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .table th {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    .btn-delete {
+      background-color: #f44336;
+    }
+
+    .btn-delete:hover {
+      background-color: #c62828;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>CRUD Operations</h1>
+    <form id="crudForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Enter name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter email" required>
+      </div>
+      <button type="submit" class="btn">Add</button>
+    </form>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+  <script>
+    const form = document.getElementById('crudForm');
+    const tableBody = document.getElementById('tableBody');
+
+    // Load existing data from local storage
+    function loadData() {
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      tableBody.innerHTML = '';
+      users.forEach((user, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${user.name}</td>
+          <td>${user.email}</td>
+          <td>
+            <button class="btn btn-delete" onclick="deleteUser(${index})">Delete</button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Add user to local storage
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      users.push({ name, email });
+      localStorage.setItem('users', JSON.stringify(users));
+      form.reset();
+      loadData();
+    });
+
+    // Delete user from local storage
+    function deleteUser(index) {
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      users.splice(index, 1);
+      localStorage.setItem('users', JSON.stringify(users));
+      loadData();
+    }
+
+    // Initialize data
+    loadData();
+  </script>
+</body>
+</html>

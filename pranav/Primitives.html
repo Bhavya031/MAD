@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Draw Primitives with Fullscreen</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    canvas {
+      border: 1px solid #ccc;
+      background-color: #fff;
+    }
+
+    .btn {
+      background-color: #007BFF;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .fullscreen-btn {
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .fullscreen-btn:hover {
+      color: #007BFF;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Draw Basic Shapes</h1>
+    <canvas id="drawingCanvas" width="400" height="400"></canvas>
+    <div>
+      <button class="btn" onclick="drawRectangle()">Draw Rectangle</button>
+      <button class="btn" onclick="drawCircle()">Draw Circle</button>
+      <button class="btn" onclick="drawLine()">Draw Line</button>
+      <button class="btn" onclick="clearCanvas()">Clear Canvas</button>
+      <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Fullscreen">
+        &#x26F6; <!-- Unicode for fullscreen icon -->
+      </button>
+    </div>
+  </div>
+  <script>
+    const canvas = document.getElementById('drawingCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Function to draw a rectangle
+    function drawRectangle() {
+      ctx.fillStyle = '#007BFF';
+      ctx.fillRect(50, 50, 100, 50);
+    }
+
+    // Function to draw a circle
+    function drawCircle() {
+      ctx.beginPath();
+      ctx.arc(200, 150, 50, 0, Math.PI * 2, false);
+      ctx.fillStyle = '#28a745';
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    // Function to draw a line
+    function drawLine() {
+      ctx.beginPath();
+      ctx.moveTo(300, 300);
+      ctx.lineTo(350, 350);
+      ctx.strokeStyle = '#f44336';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      ctx.closePath();
+    }
+
+    // Function to clear the canvas
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Function to toggle fullscreen
+    function toggleFullscreen() {
+      const container = document.querySelector('.container');
+      if (!document.fullscreenElement) {
+        container.requestFullscreen().catch((err) => {
+          alert(`Error attempting to enable fullscreen mode: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+  </script>
+</body>
+</html>
