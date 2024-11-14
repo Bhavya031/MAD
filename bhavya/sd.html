@@ -91,6 +91,26 @@
             margin-right: 10px;
         }
 
+        /* Invisible fullscreen button */
+        .fullscreen-btn {
+            background-color: transparent; /* Makes the button background invisible */
+            color: transparent; /* Makes the text invisible */
+            font-size: 1.2rem;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 20px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            width: 100%;
+            position: absolute; /* Position the button out of view */
+            top: 0;
+            left: 0;
+        }
+
+        .fullscreen-btn:focus {
+            outline: none; /* Removes focus outline when button is clicked */
+        }
     </style>
 </head>
 <body>
@@ -114,6 +134,9 @@
 
         <!-- Status message -->
         <div class="status-message" id="statusMessage"></div>
+
+        <!-- Invisible Fullscreen button -->
+        <button class="fullscreen-btn" onclick="toggleFullscreen()">Toggle Full Screen</button>
     </div>
 
     <script>
@@ -141,6 +164,14 @@
                 // Show success message
                 statusMessage.textContent = `Data saved successfully! Check your download folder.`;
             }, 1000);
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen(); // Request fullscreen for the whole document
+            } else {
+                document.exitFullscreen(); // Exit fullscreen mode
+            }
         }
     </script>
 
