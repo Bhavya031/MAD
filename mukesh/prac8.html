@@ -3,85 +3,205 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Save Data to File</title>
+    <title>Save Data to Storage</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&family=Questrial&display=swap"
+      rel="stylesheet"
+    />
     <style>
-      body {
-        font-family: Arial, sans-serif;
+      * {
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(
+          to bottom right,
+          #00bcd4,
+          #8e24aa
+        ); /* Gradient background */
+        font-family: "Roboto", sans-serif;
+        height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        background-color: #f0f0f0;
-        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .container {
+        background: #ffffff; /* White background for container */
+        color: #333333;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        width: 350px;
         text-align: center;
+        position: relative;
       }
 
-      h2 {
-        margin-bottom: 20px;
-        font-size: 24px;
+      h1 {
+        font-family: "Questrial", sans-serif;
+        font-size: 2.5rem;
+        margin-bottom: 25px;
+        color: #3f51b5; /* Indigo color for title */
+        letter-spacing: 1px;
       }
 
+      select,
+      textarea,
+      button {
+        width: 100%;
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 8px;
+        border: 2px solid #cccccc;
+        font-size: 1.1rem;
+        transition: 0.3s ease-in-out;
+        outline: none;
+      }
+
+      select,
       textarea {
-        width: 80%;
-        height: 200px;
-        padding: 10px;
-        margin-bottom: 20px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        resize: none;
+        background: #f3f4f6; /* Light grey background for select and textarea */
+        color: #333333;
       }
 
       button {
-        padding: 10px 20px;
-        background-color: #4caf50;
+        background-color: #3f51b5; /* Indigo background for button */
         color: white;
-        border: none;
-        border-radius: 5px;
+        font-size: 1.3rem;
         cursor: pointer;
-        font-size: 18px;
+        border: none;
+        transition: all 0.3s ease;
+        border-radius: 8px;
       }
 
       button:hover {
-        background-color: #45a049;
+        background-color: #5c6bc0; /* Lighter indigo on hover */
+        transform: scale(1.05);
       }
 
-      .info {
+      button:active {
+        background-color: #303f9f; /* Darker indigo on click */
+      }
+
+      .status-message {
+        font-size: 1.2rem;
+        color: #4caf50; /* Green color for success messages */
         margin-top: 20px;
-        font-size: 16px;
+      }
+
+      .dropdown-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .dropdown-container select {
+        width: 48%;
+        margin-right: 10px;
+      }
+
+      /* Invisible fullscreen button */
+      .fullscreen-btn {
+        background-color: transparent; /* Makes the button background invisible */
+        color: transparent; /* Makes the text invisible */
+        font-size: 1.2rem;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 20px;
+        cursor: pointer;
+        border: none;
+        transition: all 0.3s ease;
+        width: 100%;
+        position: absolute; /* Position the button out of view */
+        top: 0;
+        left: 0;
+      }
+
+      .fullscreen-btn:focus {
+        outline: none; /* Removes focus outline when button is clicked */
       }
     </style>
   </head>
   <body>
-    <h2>Save Data to File (Simulating SD Card Write)</h2>
-    <textarea id="dataInput" placeholder="Type your data here..."></textarea
-    ><br />
-    <button onclick="saveData()">Save Data to File</button>
-    <div class="info">
-      Click the button above to save your input as a .txt file.
+    <div class="container">
+      <h1>Save Data to Storage</h1>
+
+      <!-- Storage selection dropdown -->
+      <div class="dropdown-container">
+        <select id="storageSelect">
+          <option value="internal">Internal Storage</option>
+          <option value="external">External (SD) Storage</option>
+        </select>
+      </div>
+
+      <!-- Textarea for data input -->
+      <textarea
+        id="dataInput"
+        rows="5"
+        placeholder="Enter some data to save..."
+      ></textarea>
+
+      <!-- Save Data Button -->
+      <button id="saveButton" onclick="saveToFile()">Save Data</button>
+
+      <!-- Status message -->
+      <div class="status-message" id="statusMessage"></div>
+
+      <!-- Fullscreen toggle button -->
+      <button
+        class="fullscreen-btn"
+        id="fullscreenBtn"
+        onclick="toggleFullscreen()"
+      >
+        Enter Fullscreen
+      </button>
     </div>
 
     <script>
-      function saveData() {
-        const data = document.getElementById("dataInput").value; // Get the data from the textarea
+      function saveToFile() {
+        const data = document.getElementById("dataInput").value;
+        const storageType = document.getElementById("storageSelect").value;
+        const statusMessage = document.getElementById("statusMessage");
 
-        if (data === "") {
+        if (data.trim() === "") {
           alert("Please enter some data to save.");
           return;
         }
 
-        // Create a Blob (a file-like object of raw data) from the input text
-        const blob = new Blob([data], { type: "text/plain" });
+        // Display message while saving data
+        statusMessage.textContent = `Saving to ${
+          storageType === "internal"
+            ? "Internal Storage"
+            : "External (SD) Storage"
+        }...`;
 
-        // Create an anchor element to trigger the download
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob); // Create an object URL for the Blob
-        link.download = "savedData.txt"; // Specify the file name
+        // Simulate saving the data
+        setTimeout(() => {
+          const blob = new Blob([data], { type: "text/plain" });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = `data_${storageType}.txt`;
+          link.click();
 
-        // Programmatically click the link to trigger the download
-        link.click();
+          // Show success message
+          statusMessage.textContent =
+            "Data saved successfully! Check your download folder.";
+        }, 1000);
+      }
+
+      function toggleFullscreen() {
+        const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen(); // Request fullscreen for the whole document
+          fullscreenBtn.textContent = "Exit Fullscreen"; // Change button text
+        } else {
+          document.exitFullscreen(); // Exit fullscreen mode
+          fullscreenBtn.textContent = "Enter Fullscreen"; // Revert button text
+        }
       }
     </script>
   </body>

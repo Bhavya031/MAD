@@ -3,272 +3,260 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login/Signup Form</title>
+    <title>Login & Signup</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
     <style>
-      /* Global Styles */
-      body {
-        font-family: "Arial", sans-serif;
+      * {
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(
+          to right,
+          #6a11cb,
+          #2575fc
+        ); /* Gradient background */
+        font-family: "Roboto", sans-serif;
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: #f5f6f7;
-        color: #333;
-        overflow: hidden; /* Prevents overflow on small screens */
-      }
-
-      h1 {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 2.2rem;
-        color: #3a8dff; /* Blue color */
-        text-align: center;
-        margin-bottom: 20px;
+        color: #fff;
       }
 
       .container {
-        width: 100%;
-        max-width: 400px;
-        padding: 40px;
+        width: 350px;
         background-color: #fff;
+        padding: 40px;
         border-radius: 12px;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         text-align: center;
         transition: all 0.3s ease;
-        box-sizing: border-box;
       }
 
-      /* Input Fields */
-      label {
-        display: block;
-        margin-bottom: 8px;
-        font-size: 1rem;
-        color: #555;
+      h2 {
+        color: #333;
+        font-size: 2rem;
+        margin-bottom: 20px;
+        font-weight: 500;
       }
 
-      input[type="text"],
-      input[type="email"],
-      input[type="password"] {
+      .form-input {
         width: 100%;
-        padding: 14px;
-        font-size: 1rem;
+        padding: 15px;
         margin-bottom: 15px;
-        border: 1px solid #ddd;
         border-radius: 8px;
-        background-color: #f7f8fa;
-        transition: all 0.3s ease;
-        box-sizing: border-box;
+        border: 1px solid #ddd;
+        background-color: #f7f7f7;
+        color: #333;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.3s ease;
       }
 
-      input[type="text"]:focus,
-      input[type="email"]:focus,
-      input[type="password"]:focus {
-        border-color: #3a8dff;
-        outline: none;
+      .form-input:focus {
+        border-color: #2575fc;
         background-color: #fff;
       }
 
-      /* Button Styles */
-      button {
+      .form-button {
         width: 100%;
-        padding: 14px;
-        background-color: #3a8dff; /* Blue color for buttons */
-        color: white;
+        padding: 15px;
+        background-color: #2575fc;
         border: none;
         border-radius: 8px;
-        font-size: 1.1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      button:hover {
-        background-color: #3678e4; /* Slightly darker blue on hover */
-      }
-
-      /* Switch Links */
-      .switch-link {
-        font-size: 0.9rem;
-        color: #3a8dff;
-        cursor: pointer;
-        text-decoration: underline;
-        margin-top: 15px;
-      }
-
-      .switch-link:hover {
-        color: #3678e4;
-      }
-
-      /* Success Message */
-      .success-message {
+        color: white;
         font-size: 1.2rem;
-        color: #388e3c;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .form-button:hover {
+        background-color: #1e66c7;
+      }
+
+      .form-button:active {
+        background-color: #1a58a3;
+      }
+
+      .toggle-text {
+        margin-top: 20px;
+        color: #333;
+        font-size: 1rem;
+      }
+
+      .toggle-link {
+        color: #2575fc;
+        cursor: pointer;
         font-weight: bold;
+      }
+
+      .form-container {
+        display: none;
+      }
+
+      .form-container.active {
+        display: block;
+      }
+
+      .status-message {
+        font-size: 1rem;
+        color: #ff4d4d;
         margin-top: 20px;
       }
 
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .container {
-          width: 90%;
-          padding: 30px;
-        }
+      /* Animations */
+      .container {
+        animation: fadeIn 0.8s ease;
+      }
 
-        button {
-          font-size: 1rem;
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
         }
-
-        h1 {
-          font-size: 2rem;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="password"],
-        button {
-          font-size: 1rem;
-          padding: 12px;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
       }
 
+      /* Responsive Styles */
       @media (max-width: 480px) {
-        h1 {
+        .container {
+          padding: 20px;
+          width: 90%;
+        }
+
+        h2 {
           font-size: 1.6rem;
         }
 
-        .container {
-          width: 95%;
-          padding: 25px;
-        }
-
-        button {
+        .form-button {
           font-size: 1rem;
           padding: 12px;
         }
 
-        label {
+        .form-input {
           font-size: 0.9rem;
+          padding: 12px;
         }
       }
     </style>
   </head>
   <body>
-    <div class="container" id="formContainer">
-      <h1>Login</h1>
+    <div class="container">
+      <h2 id="formTitle">Login</h2>
 
       <!-- Login Form -->
-      <div id="loginForm">
-        <label for="loginEmail">Email</label>
+      <div class="form-container login-form active">
         <input
           type="email"
+          class="form-input"
           id="loginEmail"
-          placeholder="Enter your email"
-          required
+          placeholder="Email"
         />
-
-        <label for="loginPassword">Password</label>
         <input
           type="password"
+          class="form-input"
           id="loginPassword"
-          placeholder="Enter your password"
-          required
+          placeholder="Password"
         />
-
-        <button onclick="login()">Login</button>
-
-        <p class="switch-link" onclick="toggleForm('signup')">
-          Don't have an account? Sign up
-        </p>
+        <button class="form-button" onclick="login()">Login</button>
       </div>
 
       <!-- Signup Form -->
-      <div id="signupForm" style="display: none">
-        <label for="signupName">Name</label>
+      <div class="form-container signup-form">
         <input
           type="text"
+          class="form-input"
           id="signupName"
-          placeholder="Enter your name"
-          required
+          placeholder="Name"
         />
-
-        <label for="signupEmail">Email</label>
         <input
           type="email"
+          class="form-input"
           id="signupEmail"
-          placeholder="Enter your email"
-          required
+          placeholder="Email"
         />
-
-        <label for="signupPassword">Password</label>
         <input
           type="password"
+          class="form-input"
           id="signupPassword"
-          placeholder="Create a password"
-          required
+          placeholder="Password"
         />
-
-        <button onclick="signup()">Sign Up</button>
-
-        <p class="switch-link" onclick="toggleForm('login')">
-          Already have an account? Login
-        </p>
+        <button class="form-button" onclick="signup()">Signup</button>
       </div>
 
-      <!-- Success Message -->
-      <div
-        id="successMessage"
-        style="display: none"
-        class="success-message"
-      ></div>
+      <!-- Toggle Link -->
+      <p class="toggle-text">
+        <span id="toggleLink" class="toggle-link" onclick="toggleForm()"
+          >Don't have an account? Signup</span
+        >
+      </p>
+
+      <!-- Status Message -->
+      <div class="status-message" id="statusMessage"></div>
     </div>
 
     <script>
-      function toggleForm(form) {
-        if (form === "signup") {
-          document.getElementById("loginForm").style.display = "none";
-          document.getElementById("signupForm").style.display = "block";
-          document.querySelector("h1").textContent = "Sign Up";
+      // Toggle between login and signup forms
+      function toggleForm() {
+        const loginForm = document.querySelector(".login-form");
+        const signupForm = document.querySelector(".signup-form");
+        const formTitle = document.getElementById("formTitle");
+        const toggleLink = document.getElementById("toggleLink");
+        const statusMessage = document.getElementById("statusMessage");
+
+        if (loginForm.classList.contains("active")) {
+          loginForm.classList.remove("active");
+          signupForm.classList.add("active");
+          formTitle.textContent = "Signup";
+          toggleLink.textContent = "Already have an account? Login";
+          statusMessage.textContent = "";
         } else {
-          document.getElementById("signupForm").style.display = "none";
-          document.getElementById("loginForm").style.display = "block";
-          document.querySelector("h1").textContent = "Login";
+          signupForm.classList.remove("active");
+          loginForm.classList.add("active");
+          formTitle.textContent = "Login";
+          toggleLink.textContent = "Don't have an account? Signup";
+          statusMessage.textContent = "";
         }
-        document.getElementById("successMessage").style.display = "none"; // Hide success message on form switch
       }
 
+      // Simulate login functionality
       function login() {
         const email = document.getElementById("loginEmail").value;
         const password = document.getElementById("loginPassword").value;
+        const statusMessage = document.getElementById("statusMessage");
 
         if (!email || !password) {
-          alert("Please fill in all fields.");
+          statusMessage.textContent = "Please enter both email and password.";
           return;
         }
 
-        // Hide the form and show success message
-        document.getElementById("loginForm").style.display = "none";
-        document.getElementById("successMessage").style.display = "block";
-        document.getElementById(
-          "successMessage"
-        ).textContent = `Welcome back, ${email}!`;
+        statusMessage.textContent = "Login successful!";
+        statusMessage.style.color = "green";
       }
 
+      // Simulate signup functionality
       function signup() {
         const name = document.getElementById("signupName").value;
         const email = document.getElementById("signupEmail").value;
         const password = document.getElementById("signupPassword").value;
+        const statusMessage = document.getElementById("statusMessage");
 
         if (!name || !email || !password) {
-          alert("Please fill in all fields.");
+          statusMessage.textContent = "Please fill out all fields.";
           return;
         }
 
-        // Hide the form and show success message
-        document.getElementById("signupForm").style.display = "none";
-        document.getElementById("successMessage").style.display = "block";
-        document.getElementById(
-          "successMessage"
-        ).textContent = `Account created for ${email}!`;
+        statusMessage.textContent = "Signup successful!";
+        statusMessage.style.color = "green";
       }
     </script>
   </body>

@@ -3,270 +3,232 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Draw Shapes</title>
+    <title>Draw Shapes App</title>
     <style>
+      /* Reset body styling */
       body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: #f5f5f5;
+        margin: 0;
+        background-color: #eceff1; /* Light gray background */
+        font-family: "Roboto", sans-serif;
+      }
+
+      /* App container */
+      .app-container {
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff;
+        position: relative;
+        overflow: hidden;
+        touch-action: none; /* Prevent default scrolling on touch devices */
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Fullscreen button styling */
+      .fullscreen-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 30px;
+        height: 30px;
+        background-color: #ff6f61;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        z-index: 10;
+        font-size: 18px;
+      }
+
+      /* Fullscreen icon */
+      .fullscreen-btn::before {
+        content: "⛶"; /* Unicode character for fullscreen icon */
+      }
+
+      /* Shape buttons container */
+      .shape-buttons {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 10;
+        display: flex;
         flex-direction: column;
-        text-align: center;
-        box-sizing: border-box;
       }
 
-      h2 {
-        margin: 20px;
-        font-size: 24px;
-      }
-
-      canvas {
-        border: 2px solid #000;
-        background-color: #eaeaea;
-        width: 90%;
-        max-width: 1000px; /* Make canvas a bit bigger */
-        height: 60vh; /* Adjust the height to 60% of the viewport height */
-      }
-
-      /* Style for buttons */
-      button {
-        margin: 10px;
-        padding: 8px 15px;
+      /* Shape button styling */
+      .shape-button {
+        padding: 12px;
+        margin-bottom: 10px;
         background-color: #4caf50;
         color: white;
         border: none;
-        border-radius: 5px;
+        border-radius: 8px;
         cursor: pointer;
         font-size: 14px;
-        width: 100px; /* Slightly smaller width */
+        transition: background-color 0.3s;
       }
 
-      button:hover {
+      .shape-button:hover {
         background-color: #45a049;
       }
 
-      .button-container {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-bottom: 20px;
+      .shape-button:focus {
+        outline: none;
       }
 
-      /* Responsive styles */
+      /* Shape styles */
+      .shape {
+        position: absolute;
+        background-color: rgba(76, 175, 80, 0.6);
+        border: 2px solid #4caf50;
+        pointer-events: none;
+      }
+
+      .circle {
+        border-radius: 50%;
+      }
+
+      /* Responsive Design */
       @media (max-width: 600px) {
-        canvas {
-          height: 50vh; /* Adjust height on mobile */
+        .fullscreen-btn {
+          top: 10px;
+          right: 10px;
+          width: 40px;
+          height: 40px;
+          font-size: 20px;
         }
 
-        .button-container {
-          flex-direction: column;
+        .shape-buttons {
+          top: 10px;
+          left: 10px;
         }
 
-        button {
-          width: 80%; /* Buttons get larger on mobile */
+        .shape-button {
+          font-size: 16px;
+          padding: 15px;
+          margin-bottom: 12px;
         }
       }
     </style>
   </head>
   <body>
-    <h2>Click and Drag to Draw Shapes</h2>
-    <div class="button-container">
-      <button onclick="setRectangle()">Rectangle</button>
-      <button onclick="setCircle()">Circle</button>
-      <button onclick="setEllipse()">Ellipse</button>
-      <button onclick="setTriangle()">Triangle</button>
+    <div class="app-container" id="appContainer">
+      <!-- Shape buttons -->
+      <div class="shape-buttons">
+        <button class="shape-button" onclick="selectShape('rectangle')">
+          Rectangle
+        </button>
+        <button class="shape-button" onclick="selectShape('circle')">
+          Circle
+        </button>
+      </div>
+
+      <!-- Fullscreen button -->
+      <button class="fullscreen-btn" onclick="toggleFullscreen()"></button>
+
+      <!-- Shapes will be drawn here -->
     </div>
-    <canvas id="myCanvas"></canvas>
 
     <script>
-      const canvas = document.getElementById("myCanvas");
-      const ctx = canvas.getContext("2d");
-
-      // Resize the canvas to fit the window
-      function resizeCanvas() {
-        canvas.width = window.innerWidth * 0.9; // Set canvas width to 90% of window width
-        canvas.height = window.innerHeight * 0.6; // Set canvas height to 60% of window height
-      }
-
-      window.addEventListener("resize", resizeCanvas); // Listen to window resize event
-      resizeCanvas(); // Initial resize on page load
-
+      const appContainer = document.getElementById("appContainer");
       let isDrawing = false;
-      let startX, startY;
-      let currentShape = null;
-      let shapes = [];
+      let startX = 0,
+        startY = 0;
+      let currentShape = "rectangle"; // Default shape is rectangle
+      let currentShapeElement = null;
 
-      // Start drawing the shape on mouse or touch start
-      function startDraw(e) {
-        isDrawing = true;
-        const offsetX =
-          e.offsetX ||
-          e.touches[0].clientX - canvas.getBoundingClientRect().left;
-        const offsetY =
-          e.offsetY ||
-          e.touches[0].clientY - canvas.getBoundingClientRect().top;
-        startX = offsetX;
-        startY = offsetY;
-      }
-
-      // Draw the shape dynamically as the user drags
-      function drawShape(e) {
-        if (!isDrawing) return;
-
-        const offsetX =
-          e.offsetX ||
-          e.touches[0].clientX - canvas.getBoundingClientRect().left;
-        const offsetY =
-          e.offsetY ||
-          e.touches[0].clientY - canvas.getBoundingClientRect().top;
-        const width = offsetX - startX;
-        const height = offsetY - startY;
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-        drawAllShapes(); // Redraw all shapes
-
-        // Draw the appropriate shape based on dimensions (aspect ratio)
-        if (Math.abs(width) > Math.abs(height)) {
-          // It's more like a rectangle
-          ctx.fillStyle = "#FF5733";
-          ctx.fillRect(startX, startY, width, height);
-          currentShape = "rectangle";
-        } else if (Math.abs(width) === Math.abs(height)) {
-          // It's more like a square or circle
-          ctx.fillStyle = "#33A1FF";
-          ctx.beginPath();
-          ctx.arc(
-            startX,
-            startY,
-            Math.sqrt(width * width + height * height),
-            0,
-            Math.PI * 2
-          );
-          ctx.fill();
-          currentShape = "circle";
-        } else {
-          // It's more like an ellipse
-          ctx.fillStyle = "#FF33A1";
-          ctx.beginPath();
-          ctx.ellipse(
-            startX,
-            startY,
-            Math.abs(width),
-            Math.abs(height),
-            0,
-            0,
-            Math.PI * 2
-          );
-          ctx.fill();
-          currentShape = "ellipse";
-        }
-      }
-
-      // Stop drawing and save the shape
-      function stopDraw(e) {
-        if (!isDrawing) return;
-        isDrawing = false;
-
-        const offsetX =
-          e.offsetX ||
-          e.changedTouches[0].clientX - canvas.getBoundingClientRect().left;
-        const offsetY =
-          e.offsetY ||
-          e.changedTouches[0].clientY - canvas.getBoundingClientRect().top;
-        const width = offsetX - startX;
-        const height = offsetY - startY;
-
-        // Store the shape based on its type
-        if (currentShape === "rectangle") {
-          shapes.push({
-            type: "rectangle",
-            x: startX,
-            y: startY,
-            width,
-            height,
-            color: "#FF5733",
-          });
-        } else if (currentShape === "circle") {
-          const radius = Math.sqrt(width * width + height * height);
-          shapes.push({
-            type: "circle",
-            x: startX,
-            y: startY,
-            radius,
-            color: "#33A1FF",
-          });
-        } else if (currentShape === "ellipse") {
-          shapes.push({
-            type: "ellipse",
-            x: startX,
-            y: startY,
-            width: Math.abs(width),
-            height: Math.abs(height),
-            color: "#FF33A1",
-          });
-        }
-
-        drawAllShapes(); // Redraw all the shapes stored in the array
-      }
-
-      // Function to draw all the shapes stored
-      function drawAllShapes() {
-        shapes.forEach((shape) => {
-          ctx.fillStyle = shape.color;
-          if (shape.type === "rectangle") {
-            ctx.fillRect(shape.x, shape.y, shape.width, shape.height);
-          } else if (shape.type === "circle") {
-            ctx.beginPath();
-            ctx.arc(shape.x, shape.y, shape.radius, 0, Math.PI * 2);
-            ctx.fill();
-          } else if (shape.type === "ellipse") {
-            ctx.beginPath();
-            ctx.ellipse(
-              shape.x,
-              shape.y,
-              shape.width,
-              shape.height,
-              0,
-              0,
-              Math.PI * 2
+      // Fullscreen toggle function
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          appContainer.requestFullscreen().catch((err) => {
+            console.error(
+              "Error attempting to enable fullscreen mode:",
+              err.message
             );
-            ctx.fill();
-          }
-        });
+          });
+        } else {
+          document.exitFullscreen();
+        }
       }
 
-      // Shape selection functions
-      function setRectangle() {
-        currentShape = "rectangle";
+      // Select the current shape type
+      function selectShape(shape) {
+        currentShape = shape;
       }
 
-      function setCircle() {
-        currentShape = "circle";
+      // Start drawing the selected shape
+      function startDrawing(event) {
+        isDrawing = true;
+
+        // Determine starting point
+        startX = event.touches ? event.touches[0].clientX : event.clientX;
+        startY = event.touches ? event.touches[0].clientY : event.clientY;
+
+        // Create a new shape element based on the selected shape
+        currentShapeElement = document.createElement("div");
+        currentShapeElement.classList.add("shape");
+
+        if (currentShape === "circle") {
+          currentShapeElement.classList.add("circle");
+        }
+
+        currentShapeElement.style.left = `${startX}px`;
+        currentShapeElement.style.top = `${startY}px`;
+
+        appContainer.appendChild(currentShapeElement);
       }
 
-      function setEllipse() {
-        currentShape = "ellipse";
+      // Update the shape's dimensions as the user drags
+      function draw(event) {
+        if (!isDrawing) return;
+
+        // Calculate current position
+        const currentX = event.touches
+          ? event.touches[0].clientX
+          : event.clientX;
+        const currentY = event.touches
+          ? event.touches[0].clientY
+          : event.clientY;
+
+        // Calculate width and height for the shape
+        const width = currentX - startX;
+        const height = currentY - startY;
+
+        // Update the shape's width and height
+        if (currentShape === "rectangle") {
+          currentShapeElement.style.width = `${Math.abs(width)}px`;
+          currentShapeElement.style.height = `${Math.abs(height)}px`;
+        } else if (currentShape === "circle") {
+          currentShapeElement.style.width = `${Math.abs(width)}px`;
+          currentShapeElement.style.height = `${Math.abs(width)}px`; // Keep it circular
+        }
+
+        // Adjust position if dragging left or up
+        if (width < 0) currentShapeElement.style.left = `${currentX}px`;
+        if (height < 0) currentShapeElement.style.top = `${currentY}px`;
       }
 
-      function setTriangle() {
-        currentShape = "triangle";
+      // Stop drawing and finalize the shape
+      function stopDrawing() {
+        isDrawing = false;
+        currentShapeElement = null;
       }
 
-      // Attach event listeners for mouse and touch events
-      canvas.addEventListener("mousedown", startDraw);
-      canvas.addEventListener("mousemove", drawShape);
-      canvas.addEventListener("mouseup", stopDraw);
-      canvas.addEventListener("mouseout", stopDraw); // Stop drawing if mouse leaves the canvas
+      // Event listeners for drawing with mouse and touch
+      appContainer.addEventListener("mousedown", startDrawing);
+      appContainer.addEventListener("mousemove", draw);
+      appContainer.addEventListener("mouseup", stopDrawing);
 
-      // For touch support
-      canvas.addEventListener("touchstart", startDraw);
-      canvas.addEventListener("touchmove", drawShape);
-      canvas.addEventListener("touchend", stopDraw);
-      canvas.addEventListener("touchcancel", stopDraw); // Stop drawing if touch is canceled
+      appContainer.addEventListener("touchstart", startDrawing);
+      appContainer.addEventListener("touchmove", draw);
+      appContainer.addEventListener("touchend", stopDrawing);
     </script>
   </body>
 </html>
