@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Android App - GUI Components</title>
+    <style>
+        /* Resetting body and app container styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f5;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Mock phone container */
+        .app-container {
+            width: 360px;
+            height: 640px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+
+        /* Header styling */
+        .header {
+            text-align: center;
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        /* Button styling */
+        .button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #3498db;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Color change for the button */
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Input styling */
+        .input-field {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">Welcome to My App</div>
+
+        <!-- Input fields -->
+        <input type="text" class="input-field" placeholder="Enter your name">
+        <input type="text" class="input-field" placeholder="Enter your email">
+
+        <!-- Buttons -->
+        <button class="button" onclick="showMessage('Hello!')">Say Hello</button>
+        <button class="button" onclick="showMessage('Goodbye!')">Say Goodbye</button>
+
+        <!-- Display message -->
+        <p id="message" style="text-align: center; font-size: 18px; color: #2c3e50; margin-top: 20px;"></p>
+    </div>
+
+    <script>
+        function showMessage(message) {
+            document.getElementById("message").textContent = message;
+        }
+    </script>
+</body>
+</html>

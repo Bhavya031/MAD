@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flutter-like App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 350px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #4caf50;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .input-field:focus {
+            border-color: #4caf50;
+            outline: none;
+        }
+
+        .button {
+            width: 100%;
+            padding: 15px;
+            background-color: #4caf50;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .button:active {
+            background-color: #388e3c;
+        }
+
+        .status-message {
+            font-size: 1.1rem;
+            margin-top: 15px;
+            color: #f44336;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Flutter-like App</h1>
+        <p>Enter some data below and click the button.</p>
+
+        <!-- Input field -->
+        <input type="text" class="input-field" id="inputData" placeholder="Enter text here">
+
+        <!-- Action button -->
+        <button class="button" onclick="showMessage()">Submit</button>
+
+        <!-- Status message (error or success) -->
+        <div class="status-message" id="statusMessage"></div>
+    </div>
+
+    <script>
+        function showMessage() {
+            const inputData = document.getElementById('inputData').value;
+            const statusMessage = document.getElementById('statusMessage');
+
+            if (inputData.trim() === "") {
+                statusMessage.textContent = "Please enter some text.";
+            } else {
+                statusMessage.textContent = "Data submitted successfully!";
+                statusMessage.style.color = "#4caf50"; // Green success message
+            }
+        }
+    </script>
+
+</body>
+</html>

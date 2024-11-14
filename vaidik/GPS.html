@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS Location App</title>
+    <style>
+        /* Reset body styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f5;
+            font-family: Arial, sans-serif;
+        }
+
+        /* App container */
+        .app-container {
+            width: 360px;
+            height: 300px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Header styling */
+        .header {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        /* Button styling */
+        .button {
+            padding: 15px;
+            font-size: 18px;
+            color: #ffffff;
+            background-color: #3498db;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Location display */
+        .location-info {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">GPS Location App</div>
+
+        <!-- Button to get location -->
+        <button class="button" onclick="getLocation()">Get Current Location</button>
+
+        <!-- Location display -->
+        <div class="location-info" id="locationInfo">Press the button to get your location.</div>
+    </div>
+
+    <script>
+        // Function to get user's location
+        function getLocation() {
+            const locationInfo = document.getElementById("locationInfo");
+
+            // Check if Geolocation is available
+            if (navigator.geolocation) {
+                locationInfo.textContent = "Fetching location...";
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        locationInfo.textContent = `Latitude: ${latitude.toFixed(4)}, Longitude: ${longitude.toFixed(4)}`;
+                    },
+                    (error) => {
+                        locationInfo.textContent = "Unable to retrieve location.";
+                        console.error("Error getting location:", error.message);
+                    }
+                );
+            } else {
+                locationInfo.textContent = "Geolocation is not supported by this browser.";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Android App - Layout and Event Listeners</title>
+    <style>
+        /* Reset body styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f5;
+            font-family: Arial, sans-serif;
+        }
+
+        /* App container */
+        .app-container {
+            width: 360px;
+            height: 640px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        /* Button container */
+        .button-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Buttons */
+        .button {
+            width: 100px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #3498db;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Message display */
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">Event Listener Demo</div>
+
+        <!-- Button container -->
+        <div class="button-container">
+            <button class="button" id="greetButton">Greet</button>
+            <button class="button" id="byeButton">Say Goodbye</button>
+            <button class="button" id="resetButton">Reset</button>
+        </div>
+
+        <!-- Display message -->
+        <div class="message" id="message">Click a button to see a message.</div>
+    </div>
+
+    <script>
+        // JavaScript for event listeners
+
+        // Get elements
+        const greetButton = document.getElementById("greetButton");
+        const byeButton = document.getElementById("byeButton");
+        const resetButton = document.getElementById("resetButton");
+        const message = document.getElementById("message");
+
+        // Add event listeners
+        greetButton.addEventListener("click", function() {
+            message.textContent = "Hello, welcome!";
+        });
+
+        byeButton.addEventListener("click", function() {
+            message.textContent = "Goodbye, see you soon!";
+        });
+
+        resetButton.addEventListener("click", function() {
+            message.textContent = "Click a button to see a message.";
+        });
+    </script>
+</body>
+</html>

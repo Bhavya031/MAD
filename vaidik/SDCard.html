@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save Data to Storage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Questrial&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(to bottom right, #6a11cb, #2575fc);
+            font-family: 'Roboto', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background: #2c3e50;
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Questrial', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #f39c12;
+            letter-spacing: 1px;
+        }
+
+        select, textarea, button {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 2px solid #444;
+            font-size: 1.1rem;
+            transition: 0.3s ease-in-out;
+            outline: none;
+        }
+
+        select, textarea {
+            background: #34495e;
+            color: #ecf0f1;
+        }
+
+        button {
+            background-color: #f39c12;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e67e22;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            background-color: #d35400;
+        }
+
+        .status-message {
+            font-size: 1.2rem;
+            color: #27ae60;
+            margin-top: 20px;
+        }
+
+        .dropdown-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dropdown-container select {
+            width: 48%;
+            margin-right: 10px;
+        }
+
+        /* Invisible fullscreen button */
+        .fullscreen-btn {
+            background-color: transparent; /* Makes the button background invisible */
+            color: transparent; /* Makes the text invisible */
+            font-size: 1.2rem;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 20px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            width: 100%;
+            position: absolute; /* Position the button out of view */
+            top: 0;
+            left: 0;
+        }
+
+        .fullscreen-btn:focus {
+            outline: none; /* Removes focus outline when button is clicked */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Save Data to Storage</h1>
+
+        <!-- Storage selection dropdown -->
+        <div class="dropdown-container">
+            <select id="storageSelect">
+                <option value="internal">Internal Storage</option>
+                <option value="external">External (SD) Storage</option>
+            </select>
+        </div>
+
+        <!-- Textarea for data input -->
+        <textarea id="dataInput" rows="5" placeholder="Enter some data to save..."></textarea>
+
+        <!-- Save Data Button -->
+        <button onclick="saveToFile()">Save Data</button>
+
+        <!-- Status message -->
+        <div class="status-message" id="statusMessage"></div>
+
+        <!-- Invisible Fullscreen button -->
+        <button class="fullscreen-btn" onclick="toggleFullscreen()">Toggle Full Screen</button>
+    </div>
+
+    <script>
+        function saveToFile() {
+            const data = document.getElementById('dataInput').value;
+            const storageType = document.getElementById('storageSelect').value;
+            const statusMessage = document.getElementById('statusMessage');
+
+            if (data.trim() === "") {
+                alert("Please enter some data to save.");
+                return;
+            }
+
+            // Display message while saving data
+            statusMessage.textContent = `Saving to ${storageType === 'internal' ? 'Internal Storage' : 'External (SD) Storage'}...`;
+
+            // Simulate saving the data
+            setTimeout(() => {
+                const blob = new Blob([data], { type: 'text/plain' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `data_${storageType}.txt`;
+                link.click();
+
+                // Show success message
+                statusMessage.textContent = "Data saved successfully! Check your download folder.";
+            }, 1000);
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen(); // Request fullscreen for the whole document
+            } else {
+                document.exitFullscreen(); // Exit fullscreen mode
+            }
+        }
+    </script>
+
+</body>
+</html>

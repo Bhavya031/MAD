@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #121212;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            width: 350px;
+            background-color: #1f1f1f;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h2 {
+            color: #e0e0e0;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background-color: #333;
+            color: #e0e0e0;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: #4caf50;
+            background-color: #2a2a2a;
+        }
+
+        .form-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #4caf50;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-button:hover {
+            background-color: #45a049;
+        }
+
+        .form-button:active {
+            background-color: #388e3c;
+        }
+
+        .toggle-text {
+            margin-top: 20px;
+            color: #e0e0e0;
+            font-size: 1rem;
+        }
+
+        .toggle-link {
+            color: #4caf50;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .status-message {
+            font-size: 1rem;
+            color: #ff4d4d;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2 id="formTitle">Login</h2>
+
+        <!-- Login Form -->
+        <div class="form-container login-form active">
+            <input type="email" class="form-input" id="loginEmail" placeholder="Email" />
+            <input type="password" class="form-input" id="loginPassword" placeholder="Password" />
+            <button class="form-button" onclick="login()">Login</button>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="form-container signup-form">
+            <input type="text" class="form-input" id="signupName" placeholder="Name" />
+            <input type="email" class="form-input" id="signupEmail" placeholder="Email" />
+            <input type="password" class="form-input" id="signupPassword" placeholder="Password" />
+            <button class="form-button" onclick="signup()">Signup</button>
+        </div>
+
+        <!-- Toggle Link -->
+        <p class="toggle-text">
+            <span id="toggleLink" class="toggle-link" onclick="toggleForm()">Don't have an account? Signup</span>
+        </p>
+
+        <!-- Status Message -->
+        <div class="status-message" id="statusMessage"></div>
+    </div>
+
+    <script>
+        // Toggle between login and signup forms
+        function toggleForm() {
+            const loginForm = document.querySelector('.login-form');
+            const signupForm = document.querySelector('.signup-form');
+            const formTitle = document.getElementById('formTitle');
+            const toggleLink = document.getElementById('toggleLink');
+            const statusMessage = document.getElementById('statusMessage');
+
+            if (loginForm.classList.contains('active')) {
+                loginForm.classList.remove('active');
+                signupForm.classList.add('active');
+                formTitle.textContent = 'Signup';
+                toggleLink.textContent = 'Already have an account? Login';
+                statusMessage.textContent = '';
+            } else {
+                signupForm.classList.remove('active');
+                loginForm.classList.add('active');
+                formTitle.textContent = 'Login';
+                toggleLink.textContent = "Don't have an account? Signup";
+                statusMessage.textContent = '';
+            }
+        }
+
+        // Simulate login functionality
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const statusMessage = document.getElementById('statusMessage');
+
+            if (!email || !password) {
+                statusMessage.textContent = 'Please enter both email and password.';
+                return;
+            }
+
+            statusMessage.textContent = 'Login successful!';
+            statusMessage.style.color = 'green';
+        }
+
+        // Simulate signup functionality
+        function signup() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const statusMessage = document.getElementById('statusMessage');
+
+            if (!name || !email || !password) {
+                statusMessage.textContent = 'Please fill out all fields.';
+                return;
+            }
+
+            statusMessage.textContent = 'Signup successful!';
+            statusMessage.style.color = 'green';
+        }
+    </script>
+
+</body>
+</html>

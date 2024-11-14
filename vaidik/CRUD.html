@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Management App</title>
+    <style>
+        /* Reset body styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f5;
+            font-family: Arial, sans-serif;
+        }
+
+        /* App container */
+        .app-container {
+            width: 400px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+
+        /* Header styling */
+        .header {
+            text-align: center;
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        /* Form styling */
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Button styling */
+        .button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #3498db;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Data list styling */
+        .data-list {
+            margin-top: 20px;
+        }
+
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .data-item button {
+            background-color: #e74c3c;
+            color: #ffffff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .data-item button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">Data Management App</div>
+
+        <!-- Input form -->
+        <div class="input-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter name">
+        </div>
+        <button class="button" onclick="addData()">Add Data</button>
+
+        <!-- Data list display -->
+        <div class="data-list" id="dataList"></div>
+    </div>
+
+    <script>
+        // Array to hold data items
+        let dataItems = [];
+
+        // Function to add data
+        function addData() {
+            const nameInput = document.getElementById("name");
+            const name = nameInput.value.trim();
+
+            if (name) {
+                dataItems.push(name);
+                nameInput.value = "";
+                renderDataList();
+            } else {
+                alert("Please enter a name.");
+            }
+        }
+
+        // Function to delete data
+        function deleteData(index) {
+            dataItems.splice(index, 1);
+            renderDataList();
+        }
+
+        // Function to render data list
+        function renderDataList() {
+            const dataList = document.getElementById("dataList");
+            dataList.innerHTML = ""; // Clear the list
+
+            dataItems.forEach((item, index) => {
+                const dataItem = document.createElement("div");
+                dataItem.classList.add("data-item");
+
+                const itemText = document.createElement("span");
+                itemText.textContent = item;
+
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "Delete";
+                deleteButton.onclick = () => deleteData(index);
+
+                dataItem.appendChild(itemText);
+                dataItem.appendChild(deleteButton);
+                dataList.appendChild(dataItem);
+            });
+        }
+    </script>
+</body>
+</html>
