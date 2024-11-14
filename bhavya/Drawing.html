@@ -2,74 +2,159 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shape Drawing App</title>
+    <title>Fun Drawing App</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             overflow: hidden;
             touch-action: none;
-            font-family: Arial, sans-serif;
+            font-family: 'Comic Sans MS', cursive;
+            background: #ffd5e5;
         }
+        
         #canvas {
-            border: 1px solid #ccc;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 10px;
             touch-action: none;
         }
-        .controls {
+        
+        .toolbar {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #f0f0f0;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 25px;
             padding: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
             gap: 10px;
+            z-index: 1000;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
+        
+        .shape-btn {
+            width: 50px;
+            height: 50px;
             border: none;
-            border-radius: 5px;
-            background: #007bff;
+            border-radius: 50%;
+            font-size: 24px;
+            background: #ffb6c1;
             color: white;
-            touch-action: manipulation;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        button.active {
-            background: #0056b3;
+        
+        .shape-btn.active {
+            transform: scale(1.1);
+            background: #ff69b4;
         }
+        
+        .shape-btn:active {
+            transform: scale(0.95);
+        }
+        
         #colorPicker {
             width: 50px;
-            height: 40px;
-            padding: 0;
+            height: 50px;
             border: none;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        #clearBtn {
+            background: #ff8c94;
+        }
+        
+        .size-slider {
+            position: fixed;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            width: 150px;
+            background: white;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 20px;
+            -webkit-appearance: none;
+            background: #ffb6c1;
+            border-radius: 10px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 25px;
+            height: 25px;
+            background: #ff69b4;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .feedback {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .feedback.show {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-    <div class="controls">
-        <button id="rectangleBtn">Rectangle</button>
-        <button id="circleBtn">Circle</button>
-        <button id="lineBtn">Line</button>
-        <input type="color" id="colorPicker" value="#000000">
-        <button id="clearBtn">Clear</button>
+    <div class="toolbar">
+        <button class="shape-btn" id="rectangleBtn">⬜</button>
+        <button class="shape-btn" id="circleBtn">⭕</button>
+        <button class="shape-btn" id="lineBtn">➖</button>
+        <input type="color" id="colorPicker" value="#ff69b4">
+        <button class="shape-btn" id="clearBtn">🗑️</button>
     </div>
+    
+    <div class="size-slider">
+        <input type="range" id="sizeSlider" min="1" max="20" value="3">
+    </div>
+    
+    <canvas id="canvas"></canvas>
+    
+    <div class="feedback" id="feedback">Great shape! 🎨</div>
 
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
-        const rectangleBtn = document.getElementById('rectangleBtn');
-        const circleBtn = document.getElementById('circleBtn');
-        const lineBtn = document.getElementById('lineBtn');
+        const buttons = document.querySelectorAll('.shape-btn');
         const colorPicker = document.getElementById('colorPicker');
         const clearBtn = document.getElementById('clearBtn');
+        const sizeSlider = document.getElementById('sizeSlider');
+        const feedback = document.getElementById('feedback');
 
         // Set canvas size
         function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight - 70; // Leave space for controls
+            const margin = 20;
+            canvas.width = window.innerWidth - margin * 2;
+            canvas.height = window.innerHeight - margin * 2;
+            canvas.style.marginLeft = margin + 'px';
+            canvas.style.marginTop = margin + 'px';
         }
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
@@ -79,21 +164,27 @@
         let startX, startY;
 
         // Shape selection
-        rectangleBtn.addEventListener('click', () => setCurrentShape('rectangle'));
-        circleBtn.addEventListener('click', () => setCurrentShape('circle'));
-        lineBtn.addEventListener('click', () => setCurrentShape('line'));
-
-        function setCurrentShape(shape) {
-            currentShape = shape;
-            [rectangleBtn, circleBtn, lineBtn].forEach(btn => btn.classList.remove('active'));
-            document.getElementById(shape + 'Btn').classList.add('active');
-        }
-        setCurrentShape('rectangle');
-
-        // Clear canvas
-        clearBtn.addEventListener('click', () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.id === 'clearBtn') {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    showFeedback('Canvas cleared! ✨');
+                    return;
+                }
+                
+                buttons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentShape = btn.id.replace('Btn', '');
+                showFeedback(`Let's draw a ${currentShape}! 🎨`);
+            });
         });
+
+        // Show feedback message
+        function showFeedback(message) {
+            feedback.textContent = message;
+            feedback.classList.add('show');
+            setTimeout(() => feedback.classList.remove('show'), 2000);
+        }
 
         // Touch event handlers
         canvas.addEventListener('touchstart', handleStart);
@@ -107,6 +198,11 @@
             startX = touch.clientX - rect.left;
             startY = touch.clientY - rect.top;
             isDrawing = true;
+            
+            ctx.strokeStyle = colorPicker.value;
+            ctx.lineWidth = sizeSlider.value;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
         }
 
         function handleMove(e) {
@@ -119,7 +215,6 @@
             
             // Clear canvas and redraw
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.strokeStyle = colorPicker.value;
             
             switch(currentShape) {
                 case 'rectangle':
@@ -145,9 +240,16 @@
             }
         }
 
-        function handleEnd(e) {
+        function handleEnd() {
+            if (isDrawing) {
+                showFeedback('Beautiful! ✨');
+            }
             isDrawing = false;
         }
+
+        // Initial setup
+        document.getElementById('rectangleBtn').classList.add('active');
+        showFeedback('Welcome! Start drawing! 🎨');
     </script>
 </body>
 </html>
