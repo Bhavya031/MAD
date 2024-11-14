@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shape Drawing App</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            touch-action: none;
+            font-family: Arial, sans-serif;
+        }
+        #canvas {
+            border: 1px solid #ccc;
+            touch-action: none;
+        }
+        .controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #f0f0f0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            touch-action: manipulation;
+        }
+        button.active {
+            background: #0056b3;
+        }
+        #colorPicker {
+            width: 50px;
+            height: 40px;
+            padding: 0;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="controls">
+        <button id="rectangleBtn">Rectangle</button>
+        <button id="circleBtn">Circle</button>
+        <button id="lineBtn">Line</button>
+        <input type="color" id="colorPicker" value="#000000">
+        <button id="clearBtn">Clear</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const rectangleBtn = document.getElementById('rectangleBtn');
+        const circleBtn = document.getElementById('circleBtn');
+        const lineBtn = document.getElementById('lineBtn');
+        const colorPicker = document.getElementById('colorPicker');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // Set canvas size
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight - 70; // Leave space for controls
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        let currentShape = 'rectangle';
+        let isDrawing = false;
+        let startX, startY;
+
+        // Shape selection
+        rectangleBtn.addEventListener('click', () => setCurrentShape('rectangle'));
+        circleBtn.addEventListener('click', () => setCurrentShape('circle'));
+        lineBtn.addEventListener('click', () => setCurrentShape('line'));
+
+        function setCurrentShape(shape) {
+            currentShape = shape;
+            [rectangleBtn, circleBtn, lineBtn].forEach(btn => btn.classList.remove('active'));
+            document.getElementById(shape + 'Btn').classList.add('active');
+        }
+        setCurrentShape('rectangle');
+
+        // Clear canvas
+        clearBtn.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        // Touch event handlers
+        canvas.addEventListener('touchstart', handleStart);
+        canvas.addEventListener('touchmove', handleMove);
+        canvas.addEventListener('touchend', handleEnd);
+
+        function handleStart(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            startX = touch.clientX - rect.left;
+            startY = touch.clientY - rect.top;
+            isDrawing = true;
+        }
+
+        function handleMove(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const currentX = touch.clientX - rect.left;
+            const currentY = touch.clientY - rect.top;
+            
+            // Clear canvas and redraw
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = colorPicker.value;
+            
+            switch(currentShape) {
+                case 'rectangle':
+                    ctx.beginPath();
+                    ctx.rect(startX, startY, currentX - startX, currentY - startY);
+                    ctx.stroke();
+                    break;
+                case 'circle':
+                    const radius = Math.sqrt(
+                        Math.pow(currentX - startX, 2) + 
+                        Math.pow(currentY - startY, 2)
+                    );
+                    ctx.beginPath();
+                    ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
+                    ctx.stroke();
+                    break;
+                case 'line':
+                    ctx.beginPath();
+                    ctx.moveTo(startX, startY);
+                    ctx.lineTo(currentX, currentY);
+                    ctx.stroke();
+                    break;
+            }
+        }
+
+        function handleEnd(e) {
+            isDrawing = false;
+        }
+    </script>
+</body>
+</html>

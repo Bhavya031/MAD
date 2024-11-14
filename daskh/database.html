@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .button {
+            padding: 10px 15px;
+            margin: 5px;
+            font-size: 1rem;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #43a047;
+        }
+
+        .book-list {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .book-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+        }
+
+        .delete {
+            background-color: #f44336;
+            border: none;
+            padding: 5px 8px;
+            color: white;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .delete:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Book Manager</div>
+        <input type="text" id="titleInput" class="input" placeholder="Enter book title">
+        <input type="text" id="authorInput" class="input" placeholder="Enter author name">
+        <button class="button" onclick="addBook()">Add Book</button>
+        <div class="book-list" id="bookList"></div>
+    </div>
+
+    <script>
+        // Preloaded book data
+        let books = [
+            { title: "1984", author: "George Orwell" },
+            { title: "To Kill a Mockingbird", author: "Harper Lee" },
+            { title: "The Great Gatsby", author: "F. Scott Fitzgerald" }
+        ];
+
+        // Render books
+        function renderBooks() {
+            const bookList = document.getElementById('bookList');
+            bookList.innerHTML = '';
+            books.forEach((book, index) => {
+                bookList.innerHTML += `
+                    <div class="book-item">
+                        <span>${book.title} by ${book.author}</span>
+                        <button class="delete" onclick="deleteBook(${index})">Delete</button>
+                    </div>
+                `;
+            });
+        }
+
+        // Add a new book
+        function addBook() {
+            const titleInput = document.getElementById('titleInput').value.trim();
+            const authorInput = document.getElementById('authorInput').value.trim();
+
+            if (titleInput && authorInput) {
+                books.push({ title: titleInput, author: authorInput });
+                document.getElementById('titleInput').value = '';
+                document.getElementById('authorInput').value = '';
+                renderBooks();
+            } else {
+                alert("Please fill out both fields.");
+            }
+        }
+
+        // Delete a book
+        function deleteBook(index) {
+            books.splice(index, 1);
+            renderBooks();
+        }
+
+        // Initial render
+        renderBooks();
+    </script>
+</body>
+</html>
+

@@ -3,83 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Boxes</title>
+    <title>Text Input Form</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Georgia', serif;
-            background-color: #f9f9f9;
+            font-family: 'Verdana', sans-serif;
+            background-color: #f8f9fa;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
         }
 
-        .app-container {
-            width: 400px;
+        .form-wrapper {
+            width: 320px;
             padding: 15px;
-            background: #ffffff;
+            background-color: #ffffff;
+            border: 1px solid #dcdcdc;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
         }
 
         .header {
             text-align: center;
-            font-size: 1.8rem;
-            color: #2e8b57;
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
         }
 
-        .row {
-            display: flex;
-            justify-content: space-around;
+        .input-box {
+            width: 100%;
+            padding: 8px;
             margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
         }
 
-        .circle {
-            width: 80px;
-            height: 80px;
-            background-color: #2e8b57;
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #27ae60;
             color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease-in-out;
         }
 
-        .circle:hover {
-            background-color: #3cb371;
-            transform: scale(1.2);
+        .submit-btn:hover {
+            background-color: #229954;
         }
 
-        .output {
+        .result {
             margin-top: 15px;
-            font-size: 1.1rem;
-            color: #555;
             text-align: center;
+            font-size: 1.1rem;
+            color: #333;
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="header">Circle Interaction</div>
-        <div class="row">
-            <div class="circle" onclick="displayMessage('Circle A selected')">A</div>
-            <div class="circle" onclick="displayMessage('Circle B selected')">B</div>
-        </div>
-        <div class="row">
-            <div class="circle" onclick="displayMessage('Circle C selected')">C</div>
-            <div class="circle" onclick="displayMessage('Circle D selected')">D</div>
-        </div>
-        <div class="output" id="output">Click a circle to see a message.</div>
+    <div class="form-wrapper">
+        <div class="header">Input Details</div>
+        <input type="text" class="input-box" id="usernameInput" placeholder="Enter your username">
+        <input type="password" class="input-box" id="passwordInput" placeholder="Enter your password">
+        <button class="submit-btn" onclick="showDetails()">Submit</button>
+        <div class="result" id="result">Awaiting input...</div>
     </div>
 
     <script>
-        function displayMessage(message) {
-            document.getElementById('output').innerText = message;
+        function showDetails() {
+            const username = document.getElementById('usernameInput').value;
+            const password = document.getElementById('passwordInput').value;
+            if (username && password) {
+                document.getElementById('result').innerText = `Username: ${username}, Password: ${'*'.repeat(password.length)}`;
+            } else {
+                document.getElementById('result').innerText = "Both fields are required!";
+            }
         }
     </script>
 </body>
