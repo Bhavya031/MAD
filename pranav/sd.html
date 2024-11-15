@@ -64,15 +64,6 @@
             transition: 0.3s;
         }
 
-        button:hover {
-            background-color: #F50057;
-            transform: scale(1.05);
-        }
-
-        button:active {
-            background-color: #D5004F;
-        }
-
         .status-message {
             font-size: 14px;
             color: #FFD54F;
@@ -98,6 +89,10 @@
             font-size: 30px;
             color: #FF4081;
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -120,7 +115,7 @@
         <!-- Status message -->
         <div class="status-message" id="statusMessage"></div>
 
-        <!-- Invisible Fullscreen button with icon -->
+        <!-- Fullscreen button with icon -->
         <button class="fullscreen-btn" onclick="toggleFullscreen()">
             <span class="icon">🔲</span> <!-- Icon for fullscreen -->
         </button>
@@ -154,10 +149,14 @@
         }
 
         function toggleFullscreen() {
+            const fullscreenBtn = document.querySelector('.fullscreen-btn');
+            
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen(); // Request fullscreen for the whole document
+                fullscreenBtn.classList.add('hidden'); // Hide the button when entering fullscreen
             } else {
                 document.exitFullscreen(); // Exit fullscreen mode
+                fullscreenBtn.classList.remove('hidden'); // Show the button when exiting fullscreen
             }
         }
     </script>
