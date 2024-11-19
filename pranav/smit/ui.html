@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My To-Do App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #1a1a2e;
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #eaeaea;
+        }
+
+        .container {
+            background-color: #16213e;
+            border-radius: 20px;
+            padding: 25px;
+            width: 360px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        h1 {
+            font-size: 26px;
+            color: #ff9800;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            border: 2px solid #444;
+            margin-bottom: 15px;
+            outline: none;
+            background-color: #1e2a47;
+            color: #eaeaea;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ff9800;
+        }
+
+        .add-task-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .add-task-btn:hover {
+            background-color: #e67e22;
+            transform: scale(1.05);
+        }
+
+        .tasks-list {
+            margin-top: 20px;
+            text-align: left;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .task {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            margin: 8px 0;
+            background-color: #222f52;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #eaeaea;
+        }
+
+        .task span {
+            flex: 1;
+        }
+
+        .task button {
+            background-color: transparent;
+            border: none;
+            color: #4caf50;
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .task button:hover {
+            color: #388e3c;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>My To-Do App</h1>
+
+        <input type="text" id="taskInput" placeholder="What needs to be done?" />
+        <button class="add-task-btn" onclick="addTask()">Add Task</button>
+
+        <div class="tasks-list" id="tasksList"></div>
+    </div>
+
+    <script>
+        // Function to add a task
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const taskValue = taskInput.value.trim();
+            const tasksList = document.getElementById('tasksList');
+
+            if (taskValue === "") {
+                alert("Please enter a task before adding!");
+                return;
+            }
+
+            // Create task element
+            const taskElement = document.createElement('div');
+            taskElement.classList.add('task');
+
+            // Create task text
+            const taskText = document.createElement('span');
+            taskText.textContent = taskValue;
+
+            // Create mark complete button
+            const completeButton = document.createElement('button');
+            completeButton.textContent = '✔️';
+            completeButton.onclick = function () {
+                taskText.classList.toggle('completed');
+            };
+
+            // Append elements to the task element
+            taskElement.appendChild(taskText);
+            taskElement.appendChild(completeButton);
+
+            // Append task to the list
+            tasksList.appendChild(taskElement);
+
+            // Clear input field after adding
+            taskInput.value = "";
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern GUI Example</title>
+  <style>
+    body {
+      font-family: 'Verdana', sans-serif;
+      background-color: #1e1e2f;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #292940;
+      padding: 25px 35px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      width: 320px;
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #f3a712;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #f3f3f3;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #44475a;
+      border-radius: 6px;
+      background: #393954;
+      color: #f3f3f3;
+    }
+
+    input:focus {
+      border-color: #f3a712;
+      outline: none;
+      box-shadow: 0 0 5px rgba(243, 167, 18, 0.6);
+    }
+
+    .btn {
+      background: #f3a712;
+      color: #292940;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #d38e0d;
+    }
+
+    #output {
+      margin-top: 25px;
+      font-size: 16px;
+      color: #dcdcdc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Modern App</h1>
+    <form id="userForm">
+      <div class="form-group">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" placeholder="Enter your full name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
+      <div class="form-group">
+        <label for="color">Pick a Color:</label>
+        <input type="color" id="color" value="#00aaff">
+      </div>
+      <button type="submit" class="btn">Send Info</button>
+    </form>
+    <div id="output"></div>
+  </div>
+  <script>
+    document.getElementById('userForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const color = document.getElementById('color').value;
+
+      const output = document.getElementById('output');
+      output.innerHTML = `
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Chosen Color:</strong> <span style="color:${color}; font-weight: bold;">${color}</span></p>
+      `;
+    });
+  </script>
+</body>
+</html>

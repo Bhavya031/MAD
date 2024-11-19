@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Color Grid</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #eef2f3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      width: 350px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 25px;
+      font-size: 24px;
+      color: #4a4a4a;
+    }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .grid-item {
+      padding: 20px;
+      background: #ff7043;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .grid-item:hover {
+      background: #d84315;
+      transform: scale(1.05);
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333333;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Colorful Grid Interaction</h1>
+    <div class="grid-layout">
+      <div class="grid-item" data-id="1">Red</div>
+      <div class="grid-item" data-id="2">Orange</div>
+      <div class="grid-item" data-id="3">Yellow</div>
+      <div class="grid-item" data-id="4">Green</div>
+      <div class="grid-item" data-id="5">Blue</div>
+      <div class="grid-item" data-id="6">Purple</div>
+    </div>
+    <div class="message" id="message">Select a color to explore!</div>
+  </div>
+  <script>
+    const gridItems = document.querySelectorAll('.grid-item');
+    const message = document.getElementById('message');
+
+    gridItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const itemText = item.textContent;
+        message.textContent = `You selected ${itemText}!`;
+      });
+    });
+  </script>
+</body>
+</html>

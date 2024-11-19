@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #ffffff;
+        }
+
+        .login-container {
+            background: #ffffff;
+            width: 350px;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        h2 {
+            color: #2a5298;
+            margin-bottom: 20px;
+            font-size: 26px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            background-color: #f4f4f9;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #2a5298;
+            outline: none;
+            box-shadow: 0 0 5px rgba(42, 82, 152, 0.4);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #2a5298;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background: #1e3c72;
+            transform: scale(1.03);
+        }
+
+        .error {
+            color: #e63946;
+            font-size: 14px;
+            margin-top: 15px;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .error.show {
+            opacity: 1;
+        }
+
+        .forgot-password {
+            color: #2a5298;
+            font-size: 14px;
+            text-decoration: none;
+            margin-top: 15px;
+            display: block;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Access Portal</h2>
+        <input type="text" id="username" placeholder="Enter your username" />
+        <input type="password" id="password" placeholder="Enter your password" />
+        <button onclick="login()">Sign In</button>
+        <div id="error-message" class="error"></div>
+        <a href="#" class="forgot-password">Forgot your password?</a>
+    </div>
+
+    <script>
+        function login() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var errorMessage = document.getElementById('error-message');
+            errorMessage.classList.remove('show'); // Hide error message initially
+
+            if (username === '' || password === '') {
+                errorMessage.textContent = 'Please fill in all fields.';
+                errorMessage.classList.add('show');
+            } else {
+                // Placeholder for login logic
+                errorMessage.textContent = 'Welcome back!';
+                errorMessage.style.color = '#38b000'; // Green color for success message
+                errorMessage.classList.add('show');
+            }
+        }
+    </script>
+
+</body>
+</html>

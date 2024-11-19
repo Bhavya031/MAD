@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Saver</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #282c34;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #e6e6e6;
+        }
+
+        .container {
+            background-color: #333846;
+            border-radius: 15px;
+            padding: 30px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            font-size: 26px;
+            color: #00bcd4;
+            margin-bottom: 20px;
+        }
+
+        select, textarea, button {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border-radius: 10px;
+            font-size: 16px;
+            border: 1px solid #555;
+            background-color: #434a59;
+            color: #e6e6e6;
+            outline: none;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        select:focus, textarea:focus {
+            background-color: #505868;
+        }
+
+        button {
+            background-color: #00bcd4;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            transform: scale(1);
+        }
+
+        button:hover {
+            background-color: #0097a7;
+            transform: scale(1.05);
+        }
+
+        .status-message {
+            font-size: 14px;
+            color: #ffeb3b;
+            margin-top: 20px;
+        }
+
+        .fullscreen-btn {
+            background: none;
+            border: none;
+            color: #00bcd4;
+            font-size: 24px;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            transition: color 0.3s, opacity 0.3s;
+        }
+
+        .fullscreen-btn.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .fullscreen-btn:hover {
+            color: #0097a7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Data Saver</h1>
+
+        <!-- Storage selection dropdown -->
+        <select id="storageSelect">
+            <option value="internal">Save to Device</option>
+            <option value="external">Save to External Storage</option>
+        </select>
+
+        <!-- Textarea for data input -->
+        <textarea id="dataInput" rows="6" placeholder="Type your data here..."></textarea>
+
+        <!-- Save Data Button -->
+        <button onclick="saveToFile()">Save Data</button>
+
+        <!-- Status message -->
+        <div class="status-message" id="statusMessage"></div>
+
+        <!-- Fullscreen button with icon -->
+        <button class="fullscreen-btn" id="fullscreenBtn" onclick="toggleFullscreen()" title="Toggle Fullscreen">
+            &#128470; <!-- Icon for fullscreen -->
+        </button>
+    </div>
+
+    <script>
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+        function saveToFile() {
+            const data = document.getElementById('dataInput').value;
+            const storageType = document.getElementById('storageSelect').value;
+            const statusMessage = document.getElementById('statusMessage');
+
+            if (data.trim() === "") {
+                alert("Please enter some data to save.");
+                return;
+            }
+
+            // Display a message while saving
+            statusMessage.textContent = `Saving data to ${storageType === 'internal' ? 'Device Storage' : 'External Storage'}...`;
+
+            // Simulate saving the data
+            setTimeout(() => {
+                const blob = new Blob([data], { type: 'text/plain' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `data_${storageType}.txt`;
+                link.click();
+
+                // Show success message
+                statusMessage.textContent = 'Data successfully saved! Check your downloads folder.';
+            }, 1000);
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Listen for fullscreen change events to toggle button visibility
+        document.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement) {
+                fullscreenBtn.classList.add('hidden');
+            } else {
+                fullscreenBtn.classList.remove('hidden');
+            }
+        });
+    </script>
+
+</body>
+</html>
